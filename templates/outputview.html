@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YOLO Object Detection with Voice</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+    }
+
+    h1 {
+      margin-top: 30px;
+      color: #333;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+
+    img {
+      margin-top: 30px;
+      border: 5px solid #4CAF50;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      width: 95vw;
+      height: 80vh;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <h1>Object Detection with Speech</h1>
+  <img src="{{ url_for('video_feed') }}" alt="Video Feed">
+  
+  <script>
+    const spoken = {};
+    const speakInterval = 3000; // 4 seconds between speaking same object
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+      console.log("Speaking: " + text);
+    }
+
+    function startDetection() {
+    fetch("/start_detection");
+  }
+
+  function stopDetection() {
+    fetch("/stop_detection");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    startDetection(); // Start when page is loaded
+  });
+
+  window.addEventListener("beforeunload", () => {
+    stopDetection(); // Stop when leaving page
+  });
+
+
+    setInterval(() => {
+      fetch("/objects")
+        .then(res => res.json())
+        .then(data => {
+          const now = Date.now();
+          data.forEach(obj => {
+            const key = obj.label; // use label as key
+            if (key && (!spoken[key] || (now - spoken[key]) > speakInterval)) {
+              spoken[key] = now;
+              const distanceText = obj.distance_m ? ` at ${obj.distance_m} meters` : "";
+              speak(`I see a ${obj.label}${distanceText}`);
+            }
+          });
+        });
+    }, 1000);
+  </script>
+</body>
+</html>

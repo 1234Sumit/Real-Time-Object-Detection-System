@@ -1,0 +1,74 @@
+<!-- templates/view_medical.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Medical Information</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<style>
+  body {
+    background-image: url("/static/images/nh.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+</style>
+<body>
+    <h1 style="text-align:center;">User Medical Information</h1>
+    
+    <div class="container my-5">
+        
+      <table class="table table-striped " style="text-align:center;">
+        <thead>
+          <tr>
+            <th scope="col"> User name</th>
+            <th scope="col"> Address</th>
+            <th scope="col"> Allergies</th>
+            <th scope="col"> Vision Mode Status</th>                
+            <th scope="col"> Medications</th>                
+            <th scope="col"> Surgeries</th>
+            <th scope="col"> Blood Group</th>  
+            <th scope="col">Age</th>  
+            <th scope="col"> Chronic Conditions</th>
+            <th scope="col"> Emergency Contact</th>
+            <th scope="col"> blood_pressure</th>
+            
+           
+            <!-- <th scope="col">Edit</th>
+            <th scope="col">Delete</th> -->
+            
+          </tr>
+        </thead>
+        <tbody>
+            
+          {% for user_medical_infos in user_medical_info %}
+          <tr>
+            <td>{{ user_medical_infos.uname }}</td>
+            <td>{{ user_medical_infos.address }}</td>
+              <td>{{ user_medical_infos.allergies }}</td>
+              <td>{{ user_medical_infos.visionstatus }}</td>
+              <td>{{ user_medical_infos.medications }}</td>
+              <td>{{ user_medical_infos.surgeries }}</td>
+              <td>{{ user_medical_infos.bloodgroup }}</td>
+              <td>{{ user_medical_infos.age }}</td>
+              <td>{{ user_medical_infos.chronic_conditions }}</td>
+              <td>{{ user_medical_infos.emergency_contact }}</td>
+              <td>{{ user_medical_infos.blood_pressure }}</td>
+              
+              <td>
+                  
+                <!-- <td>  <a class="btn btn-primary" href="{{ url_for('update_medical', id=user_medical_infos.id) }}" role="button">Update</a></td>
+                <td>  <a class="btn btn-primary" href="{{ url_for('delete_medical', id=user_medical_infos.id) }}" role="button">Delete</a></td> -->
+                  
+              </td>
+          </tr>
+    {% else %}
+        <p>No medical information available.</p>
+    {% endfor %}
+    
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</html>
